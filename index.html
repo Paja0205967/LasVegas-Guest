@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#080810">
+<title>Pajin VIP · Las Vegas + LA · Gostujući itinerar · Oktobar 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+ --bg:#080810; --surface:#10101b; --surface2:#171725; --border:#242438;
+ --text:#ede9e3; --muted:#77738b; --accent:#c8a96e; --danger:#d97706;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden}
+#ambient{position:fixed;inset:0;pointer-events:none;z-index:0;transition:background .7s ease}
+.header{position:relative;z-index:2;padding:42px 20px 0;text-align:center}
+.header-eyebrow{font-size:10px;letter-spacing:4px;color:var(--muted);text-transform:uppercase;margin-bottom:10px}
+.header-title{font-family:'Playfair Display',serif;font-size:32px;font-weight:400;line-height:1}
+.header-title em{font-style:italic;color:var(--accent)}
+.header-sub{font-size:10px;color:#555267;margin-top:9px;letter-spacing:1px}
+.header-line{width:38px;height:1px;background:var(--accent);margin:16px auto 0}
+.tabs-wrap{position:relative;z-index:2;padding:23px 14px 0;overflow-x:auto;display:flex;gap:7px;scrollbar-width:none}
+.tabs-wrap::-webkit-scrollbar{display:none}
+.tab{flex-shrink:0;width:69px;padding:9px 5px;border-radius:14px;border:1.5px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer;text-align:center;transition:.25s}
+.tab.active{border-color:var(--day-color);background:color-mix(in srgb,var(--day-color) 12%,var(--surface));color:var(--day-color)}
+.tab-emoji{font-size:19px;display:block;margin-bottom:3px}
+.tab-num{font-size:9px;display:block}
+.tab-date{font-size:8px;display:block;opacity:.7;margin-top:2px}
+.day-card{position:relative;z-index:2;margin:15px 15px 0;background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:19px}
+.day-card-top{display:flex;justify-content:space-between;align-items:flex-start}
+.day-label-sm{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.day-title{font-family:'Playfair Display',serif;font-size:23px;font-weight:400;margin-bottom:5px}
+.day-subtitle{font-size:10px;color:var(--muted);line-height:1.5;max-width:290px}
+.day-right{text-align:right;flex-shrink:0;margin-left:10px}
+.day-badge{font-size:10px;padding:4px 9px;border-radius:20px;white-space:nowrap}
+.day-rating{font-size:10px;color:var(--accent);margin-top:7px;white-space:nowrap}
+.day-duration{font-size:8px;color:#555;margin-top:4px;white-space:nowrap}
+.day-tip{margin-top:14px;padding:10px 11px;background:#0a0a12;border-radius:10px;border-left:2px solid var(--accent);font-size:10.5px;color:#999;line-height:1.6}
+.stops-list{position:relative;z-index:2;padding:15px 15px 70px}
+.stop-row{display:flex;gap:9px}
+.stop-timeline{display:flex;flex-direction:column;align-items:center;width:34px;flex-shrink:0}
+.stop-dot{width:34px;height:34px;border-radius:50%;background:var(--surface);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;z-index:1}
+.stop-line{width:1px;flex:1;min-height:15px;background:var(--border)}
+.stop-content{flex:1;padding-bottom:9px}
+.stop-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:12px 13px;cursor:pointer;width:100%;text-align:left;color:var(--text);transition:.2s}
+.stop-card:active{transform:scale(.985)}
+.stop-card.open{background:var(--surface2);border-color:color-mix(in srgb,var(--day-color) 35%,var(--border))}
+.stop-top{display:flex;justify-content:space-between;align-items:center}
+.stop-time{font-size:9px;color:var(--muted);letter-spacing:.5px;margin-bottom:3px}
+.stop-name{font-family:'Playfair Display',serif;font-size:14px;line-height:1.3}
+.stop-addr{font-size:9px;color:#4f4c5d;margin-top:3px}
+.stop-chevron{font-size:8px;color:#444;transition:.2s;margin-left:8px}
+.stop-card.open .stop-chevron{transform:rotate(180deg);color:var(--day-color)}
+.stop-warning{margin-top:8px;padding:5px 7px;background:#1b1405;border-radius:7px;font-size:9px;color:#d97706;display:flex;gap:5px;align-items:center}
+.stop-map{display:inline-block;margin-top:9px;padding:6px 9px;border:1px solid var(--border);border-radius:8px;color:var(--day-color);font-size:9px;text-decoration:none;background:#0c0c14}.stop-map:hover{border-color:var(--day-color)}.stop-map-list{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}
+.stop-note{margin-top:10px;padding-top:10px;border-top:1px solid var(--border);font-size:11px;color:#999;line-height:1.7;display:none}
+.stop-card.open .stop-note{display:block}
+.footer{position:relative;z-index:2;text-align:center;padding:0 15px 35px;font-size:8px;color:#2b2938;letter-spacing:1.7px;text-transform:uppercase}
+@media(min-width:700px){
+ body{max-width:620px;margin:auto;border-left:1px solid #11111d;border-right:1px solid #11111d}
+ .header{padding-top:52px}
+}
+</style>
+</head>
+<body>
+<div id="ambient"></div>
+<header class="header">
+ <div class="header-eyebrow">Las Vegas + Los Angeles · Oktobar 2026</div>
+ <h1 class="header-title">Pajin <em>VIP Itinerar</em></h1>
+ <div class="header-sub">5 putnika · Bellagio · 4–10. oktobar 2026.</div>
+ <div class="header-line" id="hline"></div>
+</header>
+<div class="tabs-wrap" id="tabs"></div>
+<div class="day-card" id="dayCard">
+ <div class="day-card-top">
+ <div>
+  <div class="day-label-sm" id="dayLabel"></div>
+  <div class="day-title" id="dayTitle"></div>
+  <div class="day-subtitle" id="daySubtitle"></div>
+ </div>
+ <div class="day-right">
+  <div class="day-badge" id="dayBadge"></div>
+  <div class="day-rating" id="dayRating"></div>
+  <div class="day-duration" id="dayDuration"></div>
+ </div>
+ </div>
+ <div class="day-tip" id="dayTip"></div>
+</div>
+<div class="stops-list" id="stopsList"></div>
+<div class="footer">Pajin VIP vodič · Las Vegas + Los Angeles · 2026</div>
+
+<script>
+const days = [{"id":1,"date":"4. okt","label":"Dolazak u Las Vegas","emoji":"✈️","subtitle":"Bellagio · Fontane · Prvo veče","km":"~3–4 km","duration":"po dolasku — ~22:00","color":"#C8A96E","rating":"4,7/5","tip":"Prvi dan je namerno lagan. Večera je jedina planirana aktivnost.","stops":[{"time":"Dolazak","name":"Uber — Harry Reid Airport → Bellagio","icon":"🚗","note":"Po sletanju, preuzimanje prtljaga i Uber/Lyft do Bellagia. Bellagio navodi rideshare drop-off kod Porte Cochère.","warn":"TRANSFER: UBER / LYFT","map":"https://www.google.com/maps/search/?api=1&query=Bellagio%20Hotel%20%26%20Casino%2C%203600%20S%20Las%20Vegas%20Blvd%2C%20Las%20Vegas%2C%20NV","maps":[{"label":"📍 Harry Reid Airport","url":"https://www.google.com/maps/search/?api=1&query=Harry%20Reid%20International%20Airport%2C%20Las%20Vegas%2C%20NV"},{"label":"📍 Bellagio","url":"https://www.google.com/maps/search/?api=1&query=Bellagio%20Hotel%20%26%20Casino%2C%203600%20S%20Las%20Vegas%20Blvd%2C%20Las%20Vegas%2C%20NV"}]},{"time":"Check-in","name":"Bellagio Las Vegas","icon":"🏨","note":"Osvežite se i presvucite. Ne gubite vreme na veliko raspakivanje.","warn":"","map":"https://www.google.com/maps/search/?api=1&query=Bellagio%20Hotel%20%26%20Casino%2C%203600%20S%20Las%20Vegas%20Blvd%2C%20Las%20Vegas%2C%20NV"},{"time":"Prvi pogled","name":"Bellagio Fontane","icon":"⛲","note":"Prva zajednička fotografija i kratko uživanje u atmosferi.","warn":"","map":"https://www.google.com/maps/search/?api=1&query=Bellagio%20Fountains%2C%20Las%20Vegas%2C%20NV"},{"time":"Kratka šetnja","name":"Bellagio → Paris → Cosmopolitan","icon":"🚶","note":"Lagano upoznavanje neposrednog okruženja.","warn":"","map":"https://www.google.com/maps/search/?api=1&query=The%20Cosmopolitan%20of%20Las%20Vegas%2C%20Las%20Vegas%2C%20NV"},{"time":"Večera","name":"Večera","icon":"🍽️","note":"Predviđeno vreme za večera.","warn":"REZERVACIJA PREPORUČENA"},{"time":"Rani odmor","name":"Bellagio","icon":"🌙","note":"Posle leta nemojte praviti kasni program.","warn":"","map":"https://www.google.com/maps/search/?api=1&query=Bellagio%20Hotel%20%26%20Casino%2C%203600%20S%20Las%20Vegas%20Blvd%2C%20Las%20Vegas%2C%20NV"}]},{"id":2,"date":"5. okt","label":"Hoteli + SAP Connect","emoji":"💼","subtitle":"Hotelska ruta ka konferenciji · SAP Connect · nastavak sever/centralni Strip","km":"~10–14 km","duration":"08:30 — ~20:30","color":"#4A8FC0","rating":"5,0/5","tip":"Pre konferencije idete od Bellagia ka severu, bez povratka u Bellagio. Posle SAP Connect-a nastavite obilazak preostalih hotela.","stops":[{"time":"08:30","name":"Doručak","icon":"🍳","note":"Predviđeno vreme za doručak.","warn":""},{"time":"09:00","name":"Bellagio Conservatory + Bellagio lobby","icon":"🌺","note":"30–40 min. Kratak obilazak i fotografije.","warn":"","map":"https://www.google.com/maps/search/?api=1&query=Bellagio%20Conservatory%20%26%20Botanical%20Gardens%2C%20Las%20Vegas%2C%20NV"},{"time":"09:40","name":"Caesars Palace","icon":"🏛️","note":"Glavni lobby, rimske statue i javni prostori.","warn":"","map":"https://www.google.com/maps/search/?api=1&query=Caesars%20Palace%2C%20Las%20Vegas%2C%20NV"},{"time":"10:10","name":"Forum Shops at Caesars","icon":"🛍️","note":"Atrijum, plafon i glavni javni prostori.","warn":"","map":"https://www.google.com/maps/search/?api=1&query=The%20Forum%20Shops%20at%20Caesars%2C%20Las%20Vegas%2C%20NV"},{"time":"10:45","name":"LINQ Promenade","icon":"🎡","note":"Kratka šetnja. High Roller ostaje opcion.","warn":"","map":"https://www.google.com/maps/search/?api=1&query=The%20LINQ%20Promenade%2C%20Las%20Vegas%2C%20NV"},{"time":"11:10","name":"Venetian + Grand Canal Shoppes","icon":"🚤","note":"Kanali, gondole, mostovi i oslikani plafoni.","warn":"","map":"https://www.google.com/maps/search/?api=1&query=The%20Venetian%20Resort%20Las%20Vegas%2C%20Las%20Vegas%2C%20NV"},{"time":"11:40","name":"Palazzo","icon":"🏨","note":"Kratak obilazak lobby-ja i javnih prostora.","warn":"","map":"https://www.google.com/maps/search/?api=1&query=The%20Palazzo%20at%20The%20Venetian%20Resort%2C%20Las%20Vegas%2C%20NV"},{"time":"11:50","name":"Polazak ka SAP Connect","icon":"🚗","note":"Uber/taksi prema konferencijskoj lokaciji; cilj dolazak oko 12:00.","warn":""},{"time":"12:00–13:30","name":"SAP Connect Las Vegas — ručak + networking","icon":"💼","note":"Predviđeno vreme za ručak.","warn":"FIKSNO","map":"https://www.google.com/maps/search/?api=1&query=Las%20Vegas%20Convention%20Center%2C%20Las%20Vegas%2C%20NV"},{"time":"13:30","name":"Nastavak obilaska","icon":"🚶","note":"Posle konferencije nastavljate hotelsku turu bez povratka u Bellagio.","warn":""},{"time":"14:00","name":"Resorts World","icon":"🏨","note":"Moderan kompleks; kratak obilazak lobby-ja i javnih prostora.","warn":"","map":"https://www.google.com/maps/search/?api=1&query=Resorts%20World%20Las%20Vegas%2C%20Las%20Vegas%2C%20NV"},{"time":"14:30","name":"Fontainebleau Las Vegas","icon":"🏙️","note":"Impozantan hotelski kompleks; obilazak lobby-ja i glavnih javnih prostora.","warn":"","map":"https://www.google.com/maps/search/?api=1&query=Fontainebleau%20Las%20Vegas%2C%20Las%20Vegas%2C%20NV"},{"time":"15:15","name":"Wynn + Encore","icon":"🌃","note":"Lobby, cveće, javni prostori i Lake of Dreams.","warn":"","map":"https://www.google.com/maps/search/?api=1&query=Wynn%20Las%20Vegas%2C%20Las%20Vegas%2C%20NV"},{"time":"16:15","name":"Cosmopolitan","icon":"✨","note":"The Chandelier i javni prostori; kratka pauza.","warn":"","map":"https://www.google.com/maps/search/?api=1&query=The%20Cosmopolitan%20of%20Las%20Vegas%2C%20Las%20Vegas%2C%20NV"},{"time":"16:45","name":"ARIA Resort & Casino","icon":"✨","note":"Moderna arhitektura, umetničke instalacije i lobby.","warn":"","map":"https://www.google.com/maps/search/?api=1&query=ARIA%20Resort%20%26%20Casino%2C%20Las%20Vegas%2C%20NV"},{"time":"17:20","name":"Park MGM + The Park","icon":"🏨","note":"Kratak obilazak južnije centralne zone.","warn":"","map":"https://www.google.com/maps/search/?api=1&query=Park%20MGM%2C%20Las%20Vegas%2C%20NV"},{"time":"17:50","name":"Paris + Planet Hollywood / Miracle Mile","icon":"🗼","note":"Završite Route 3 ako grupa ima energije; u suprotnom ostaviti za 9. oktobar.","warn":"","map":"https://www.google.com/maps/search/?api=1&query=Paris%20Las%20Vegas%2C%20Las%20Vegas%2C%20NV"},{"time":"19:15","name":"Slobodno vreme / povratak prema Bellagiu","icon":"🛋️","note":"Odmor ili lagana šetnja.","warn":""},{"time":"20:30","name":"Večera","icon":"🥂","note":"Predviđeno vreme za večera.","warn":"REZERVACIJA PREPORUČENA"}]},{"id":3,"date":"6. okt","label":"Shopping + Fremont","emoji":"🛍️","subtitle":"North Premium Outlets · Fremont Street Experience","km":"~10–12 km","duration":"08:30 — 23:00","color":"#B87333","rating":"4,8/5","tip":"Dan fokusiran na outlet i Fremont. Hotelske ture ne dodavati osim ako grupa bude imala višak energije.","stops":[{"time":"08:30","name":"Doručak","icon":"🍳","note":"Predviđeno vreme za doručak.","warn":""},{"time":"09:45","name":"Uber do Las Vegas North Premium Outlets","icon":"🚗","note":"Za pet osoba Uber je praktičniji.","warn":""},{"time":"10:00–14:15","name":"Las Vegas North Premium Outlets","icon":"🛍️","note":"Glavni shopping blok.","warn":""},{"time":"14:30","name":"Ručak","icon":"🍔","note":"Predviđeno vreme za ručak.","warn":""},{"time":"15:15","name":"Povratak u Bellagio + odmor","icon":"🏨","note":"Ostavite kupljene stvari i odmorite.","warn":"","map":"https://www.google.com/maps/search/?api=1&query=Bellagio%20Hotel%20%26%20Casino%2C%20Las%20Vegas%2C%20NV"},{"time":"18:45","name":"Polazak za Fremont Street","icon":"🚗","note":"Uber do Downtown Las Vegas-a.","warn":""},{"time":"19:15","name":"Fremont Street Experience","icon":"🎰","note":"Neon, muzika i istorijska atmosfera Downtown-a.","warn":"","map":"https://www.google.com/maps/search/?api=1&query=Fremont%20Street%20Experience%2C%20Las%20Vegas%2C%20NV"},{"time":"20:30","name":"Viva Vision","icon":"✨","note":"Najmanje jedna projekcija.","warn":"","map":"https://www.google.com/maps/search/?api=1&query=Viva%20Vision%2C%20Fremont%20Street%20Experience%2C%20Las%20Vegas%2C%20NV"},{"time":"21:15","name":"Večera","icon":"🍕","note":"Predviđeno vreme za večera.","warn":""},{"time":"22:30","name":"Uber nazad u Bellagio","icon":"🚗","note":"Povratak posle večere.","warn":""}]},{"id":4,"date":"7. okt","label":"Los Angeles","emoji":"🌴","subtitle":"Griffith · Hollywood · Beverly Hills · Santa Monica","km":"~860 km vožnje","duration":"07:00 — ~01:00","color":"#D4A017","rating":"4,7/5","tip":"Rani polazak i detaljno razrađen dan. Saobraćaj u LA-u ostaje najveća promenljiva.","stops":[{"time":"07:00","name":"Preuzimanje rent-a-cara — AVIS Bellagio","icon":"🚙","note":"Rent-a-car preuzeti u AVIS poslovnici u Bellagiu. Tačno vreme preuzimanja prema rezervaciji. AVIS navodi da je poslovnica neposredno uz glavni lobby/valet zonu Bellagia.","warn":"AVIS · BELLAGIO","map":"https://www.google.com/maps/search/?api=1&query=Avis%20at%20Bellagio%2C%203600%20S%20Las%20Vegas%20Blvd%2C%20Las%20Vegas%2C%20NV"},{"time":"07:15","name":"Polazak iz Bellagia","icon":"🚙","note":"Veliki SUV/minivan za pet osoba.","warn":""},{"time":"11:15","name":"Griffith Observatory","icon":"🔭","note":"Besplatan ulaz. 45–60 min. Adresa: 2800 E Observatory Rd, Los Angeles, CA 90027. Glavni parking ispred opservatorije prema dostavljenom planu. Obavezne fotografije: Hollywood Sign sa istočne terase, panorama centra LA i kupola sa stepenica. Parking: glavni javni parking uz opservatoriju; detaljna mapa parkinga je dostupna preko linka. Za grupu od 5 ovo je najjednostavnija opcija.","warn":"","map":"https://www.google.com/maps/search/?api=1&query=Griffith%20Observatory%2C%202800%20E%20Observatory%20Rd%2C%20Los%20Angeles%2C%20CA","maps":[{"label":"📍 Griffith Observatory","url":"https://www.google.com/maps/search/?api=1&query=Griffith%20Observatory%2C%202800%20E%20Observatory%20Rd%2C%20Los%20Angeles%2C%20CA"},{"label":"🅿️ Griffith Observatory parking","url":"https://www.google.com/maps/search/?api=1&query=Griffith%20Observatory%20Public%20Parking%2C%20Los%20Angeles%2C%20CA"}]},{"time":"12:00","name":"Doručak","icon":"🍳","note":"Predviđeno vreme za doručak.","warn":""},{"time":"13:15","name":"Hollywood Boulevard","icon":"🎬","note":"45–60 min: TCL Chinese Theatre, Dolby Theatre, Walk of Fame i pogled ka Hollywood Sign-u. Za auto je praktično parkirati u Ovation Hollywood parkingu kod 6801 Hollywood Blvd, pa peške obići TCL Chinese Theatre, Dolby Theatre i Walk of Fame.","warn":"","map":"https://www.google.com/maps/search/?api=1&query=TCL%20Chinese%20Theatre%2C%206925%20Hollywood%20Blvd%2C%20Los%20Angeles%2C%20CA","maps":[{"label":"📍 Hollywood Boulevard","url":"https://www.google.com/maps/search/?api=1&query=TCL%20Chinese%20Theatre%2C%206925%20Hollywood%20Blvd%2C%20Los%20Angeles%2C%20CA"},{"label":"🅿️ Parking Ovation Hollywood","url":"https://www.google.com/maps/search/?api=1&query=Ovation%20Hollywood%20parking%2C%206801%20Hollywood%20Blvd%2C%20Los%20Angeles%2C%20CA"}]},{"time":"14:30","name":"Beverly Hills + Rodeo Drive","icon":"🌴","note":"30–40 min. Fotografije: Beverly Hills znak, Rodeo Drive i palmine aleje. Predlog parkinga: 9510 Brighton Way (Brighton/Rodeo parking), a zatim peške do Rodeo Drive-a. Grad Beverly Hills navodi ovu javnu garažu među svojim parking strukturama; prva 2 sata su prema aktuelnoj gradskoj stranici besplatna.","warn":"","map":"https://www.google.com/maps/search/?api=1&query=Rodeo%20Drive%2C%20Beverly%20Hills%2C%20CA","maps":[{"label":"📍 Rodeo Drive","url":"https://www.google.com/maps/search/?api=1&query=Rodeo%20Drive%2C%20Beverly%20Hills%2C%20CA"},{"label":"🅿️ 9510 Brighton / Rodeo","url":"https://www.google.com/maps/search/?api=1&query=9510%20Brighton%20Way%2C%20Beverly%20Hills%2C%20CA%2090210"}]},{"time":"16:30","name":"Santa Monica + parking","icon":"🌊","note":"City of Santa Monica Parking, 1433 2nd St. Prema dostavljenom planu: prvih 90 min besplatno, zatim nekoliko USD/sat, maksimum oko 20 USD radnim danom.","warn":"","map":"https://www.google.com/maps/search/?api=1&query=City%20of%20Santa%20Monica%20Parking%2C%201433%202nd%20St%2C%20Santa%20Monica%2C%20CA","maps":[{"label":"📍 Santa Monica parking","url":"https://www.google.com/maps/search/?api=1&query=1433%202nd%20St%2C%20Santa%20Monica%2C%20CA%2090401"},{"label":"📍 Santa Monica Pier","url":"https://www.google.com/maps/search/?api=1&query=Santa%20Monica%20Pier%2C%20Santa%20Monica%2C%20CA"}]},{"time":"17:00","name":"Kasni ručak","icon":"🍝","note":"Predviđeno vreme za ručak.","warn":""},{"time":"18:00","name":"Santa Monica šetnja","icon":"🚶","note":"Third Street Promenade → Santa Monica Place → Route 66 znak → Santa Monica Pier → plaža.","warn":"","map":"https://www.google.com/maps/search/?api=1&query=Santa%20Monica%20Pier%2C%20Santa%20Monica%2C%20CA"},{"time":"19:30","name":"Plaža + Santa Monica Pier","icon":"🏖️","note":"Fotografije: Route 66 znak, Ferris Wheel panorama i plaža sa spasilačkom kulom.","warn":"","map":"https://www.google.com/maps/search/?api=1&query=Santa%20Monica%20Pier%2C%20Santa%20Monica%2C%20CA"},{"time":"21:00","name":"Polazak za Las Vegas","icon":"🚙","note":"Ne planirati dodatnu aktivnost po dolasku.","warn":""},{"time":"~01:00","name":"Dolazak u Bellagio","icon":"🏨","note":"Odmor i spavanje.","warn":""}]},{"id":5,"date":"8. okt","label":"Helikopter + lagani hoteli","emoji":"🚁","subtitle":"Grand Canyon · Hoover Dam · Lake Mead · preostali hoteli","km":"zavisi od ture","duration":"08:30 — ~20:30","color":"#8B6BB1","rating":"5,0/5","tip":"Helikopter je glavni događaj. Posle povratka odmor, zatim Wynn/Encore i glavni obrok dana u 18:00; bez posebne večere.","stops":[{"time":"08:30","name":"Doručak","icon":"🍳","note":"Predviđeno vreme za doručak.","warn":""},{"time":"11:45","name":"Priprema za pickup","icon":"🎒","note":"Preuzimanje rent-a-cara je planirano u AVIS rent-a-car poslovnici u Bellagiu. Za helikopter: ponesite PASOŠ; pickup je u 12:10 prema potvrdi rezervacije.","warn":"","map":"https://www.google.com/maps/search/?api=1&query=Avis%20at%20Bellagio%2C%203600%20S%20Las%20Vegas%20Blvd%2C%20Las%20Vegas%2C%20NV"},{"time":"12:10","name":"PICKUP ISPRED BELLAGIA","icon":"🚁","note":"Preuzimanje u 12:10 ispred Bellagia, prema potvrdi rezervacije. Ponesite PASOŠ. Helikopterski deo traje 110 minuta prema vašoj rezervaciji. Papillon navodi da se tačna pickup lokacija i vreme potvrđuju u rezervaciji.","warn":"FIKSNO: 12:10 · PASOŠ OBAVEZAN · 110 MIN HELIKOPTER","map":"https://www.google.com/maps/search/?api=1&query=Bellagio%20Hotel%20%26%20Casino%2C%203600%20S%20Las%20Vegas%20Blvd%2C%20Las%20Vegas%2C%20NV","maps":[{"label":"📍 Bellagio pickup","url":"https://www.google.com/maps/search/?api=1&query=Bellagio%20Hotel%20%26%20Casino%2C%203600%20S%20Las%20Vegas%20Blvd%2C%20Las%20Vegas%2C%20NV"},{"label":"📍 AVIS Bellagio","url":"https://www.google.com/maps/search/?api=1&query=Avis%20at%20Bellagio%2C%203600%20S%20Las%20Vegas%20Blvd%2C%20Las%20Vegas%2C%20NV"}]},{"time":"Tokom izleta","name":"Grand Canyon + Hoover Dam / Lake Mead","icon":"🏜️","note":"Jedan od glavnih doživljaja putovanja; trajanje zavisi od rezervisane ture.","warn":""},{"time":"Po povratku","name":"Bellagio + odmor","icon":"🏨","note":"Odmor je prioritet.","warn":"","map":"https://www.google.com/maps/search/?api=1&query=Bellagio%20Hotel%20%26%20Casino%2C%20Las%20Vegas%2C%20NV"},{"time":"16:45","name":"Wynn + Encore","icon":"✨","note":"Posle povratka sa helikoptera lagani obilazak Wynn i Encore pre obroka.","warn":"","map":"https://www.google.com/maps/search/?api=1&query=Wynn%20Las%20Vegas%2C%20Las%20Vegas%2C%20NV"},{"time":"20:00","name":"Večera","icon":"🥩","note":"Predviđeno vreme za večera.","warn":""}]},{"id":6,"date":"9. okt","label":"Shopping + preostali hoteli + „O“","emoji":"🎭","subtitle":"Fashion Show · Planet Hollywood / Paris · Bellagio · „O“","km":"~5–8 km","duration":"08:45 — 22:00","color":"#C04040","rating":"4,9/5","tip":"Ovaj dan koristi slobodno vreme za hotele koji eventualno ostanu posle 5. oktobra, ali ostavlja dovoljno vremena za „O“.","stops":[{"time":"08:45","name":"Doručak","icon":"🍳","note":"Predviđeno vreme za doručak.","warn":""},{"time":"10:00–13:15","name":"Fashion Show Mall / opcionalno North Premium Outlets","icon":"🛍️","note":"Standardna opcija: Fashion Show Mall. Alternativa: ako neko želi, umesto Fashion Show-a može ponovo do Las Vegas North Premium Outlets. Za outlet računati duži shopping blok do oko 13:15.","warn":"","map":"https://www.google.com/maps/search/?api=1&query=Fashion%20Show%20Las%20Vegas%2C%20Las%20Vegas%2C%20NV","maps":[{"label":"📍 Fashion Show Mall","url":"https://www.google.com/maps/search/?api=1&query=Fashion%20Show%20Las%20Vegas%2C%20Las%20Vegas%2C%20NV"},{"label":"🛍️ North Premium Outlets","url":"https://www.google.com/maps/search/?api=1&query=Las%20Vegas%20North%20Premium%20Outlets%2C%20875%20S%20Grand%20Central%20Pkwy%2C%20Las%20Vegas%2C%20NV"}]},{"time":"14:00","name":"Ručak","icon":"🍽️","note":"Predviđeno vreme za ručak.","warn":""},{"time":"15:15","name":"Planet Hollywood + Miracle Mile","icon":"🎬","note":"Ako nisu detaljno obiđeni 5. oktobra, završite Route 3 ovde.","warn":"","map":"https://www.google.com/maps/search/?api=1&query=Planet%20Hollywood%20Resort%20%26%20Casino%2C%20Las%20Vegas%2C%20NV"},{"time":"15:45","name":"Paris Las Vegas","icon":"🗼","note":"Kratak obilazak ako nije završen ranije.","warn":"","map":"https://www.google.com/maps/search/?api=1&query=Paris%20Las%20Vegas%2C%20Las%20Vegas%2C%20NV"},{"time":"16:15","name":"Bellagio / odmor","icon":"🛋️","note":"Povratak, presvlačenje i priprema za predstavu.","warn":""},{"time":"17:45","name":"Bellagio Theatre","icon":"🎭","note":"Predstava „O“ počinje u 18:30. Dođite ranije radi ulaska i kontrole.","warn":"FIKSNO: 18:30","map":"https://www.google.com/maps/search/?api=1&query=Bellagio%20Theatre%2C%20Las%20Vegas%2C%20NV"},{"time":"18:30","name":"Cirque du Soleil „O“","icon":"🎪","note":"Predstava traje oko 90 min.","warn":"FIKSNO: 18:30"},{"time":"20:45","name":"Večera","icon":"🍽️","note":"Večera posle predstave „O“. Ostaviti dovoljno vremena za odlazak do restorana i povratak u Bellagio.","warn":""},{"time":"21:45","name":"Bellagio fontane","icon":"⛲","note":"Mirna završnica večeri.","warn":"","map":"https://www.google.com/maps/search/?api=1&query=Bellagio%20Fountains%2C%20Las%20Vegas%2C%20NV"}]},{"id":7,"date":"10. okt","label":"Ruta 4 + odlazak","emoji":"🧳","subtitle":"New York-New York · Excalibur · Luxor · Mandalay Bay · poslednji shopping","km":"~2–3 km","duration":"08:30 — 17:00","color":"#607D8B","rating":"4,7/5","tip":"Lagani završni dan sa južnom hotelskom rutom i dovoljno vremena za aerodrom.","stops":[{"time":"08:30","name":"Doručak","icon":"🍳","note":"Predviđeno vreme za doručak.","warn":""},{"time":"10:00","name":"Check-out + ostavljanje prtljaga","icon":"🧳","note":"Check-out, ostavljanje prtljaga kod concierge službe i preuzimanje potvrde.","warn":""},{"time":"10:30","name":"Peške do New York-New York","icon":"🚶","note":"Kratka šetnja od Bellagia do New York-New York; bez Ubera. Ostavite oko 15–20 min.","warn":"BEZ UBERA","map":"https://www.google.com/maps/search/?api=1&query=New%20York-New%20York%20Hotel%20%26%20Casino%2C%20Las%20Vegas%2C%20NV"},{"time":"10:45","name":"Ruta 4 — New York-New York → Excalibur → Luxor → Mandalay Bay","icon":"🚶","note":"Oko 2–2,5 h sa obilascima.","warn":"","map":"https://www.google.com/maps/search/?api=1&query=New%20York-New%20York%20Hotel%20%26%20Casino%2C%20Las%20Vegas%2C%20NV"},{"time":"10:50","name":"New York-New York","icon":"🗽","note":"Statue of Liberty, lobby i javni prostori.","warn":"","map":"https://www.google.com/maps/search/?api=1&query=New%20York-New%20York%20Hotel%20%26%20Casino%2C%20Las%20Vegas%2C%20NV"},{"time":"11:20","name":"Excalibur","icon":"🏰","note":"Kratak obilazak.","warn":"","map":"https://www.google.com/maps/search/?api=1&query=Excalibur%20Hotel%20%26%20Casino%2C%20Las%20Vegas%2C%20NV"},{"time":"11:50","name":"Luxor","icon":"🔺","note":"Ikonična piramida i centralni prostor.","warn":"","map":"https://www.google.com/maps/search/?api=1&query=Luxor%20Hotel%20%26%20Casino%2C%20Las%20Vegas%2C%20NV"},{"time":"12:30","name":"Mandalay Bay","icon":"🌴","note":"Završetak rute i kratki odmor.","warn":"","map":"https://www.google.com/maps/search/?api=1&query=Mandalay%20Bay%20Resort%2C%20Las%20Vegas%2C%20NV"},{"time":"13:15","name":"Ručak","icon":"🍽️","note":"Predviđeno vreme za ručak.","warn":""},{"time":"14:30","name":"Bellagio + poslednji shopping","icon":"🛍️","note":"Preuzmite prtljag tek kada budete spremni.","warn":""},{"time":"17:00","name":"Uber — Bellagio → Harry Reid Airport","icon":"🚗","note":"Po preuzimanju prtljaga, Uber/Lyft sa Bellagio rideshare pickup lokacije do Harry Reid International Airport. Bellagio navodi South Tour Lobby kao rideshare pickup.","warn":"TRANSFER: UBER / LYFT · KRENUTI OKO 17:00","map":"https://www.google.com/maps/search/?api=1&query=Harry%20Reid%20International%20Airport%2C%20Las%20Vegas%2C%20NV","maps":[{"label":"📍 Bellagio rideshare pickup","url":"https://www.google.com/maps/search/?api=1&query=Bellagio%20South%20Tour%20Lobby%2C%20Las%20Vegas%2C%20NV"},{"label":"✈️ Harry Reid Airport","url":"https://www.google.com/maps/search/?api=1&query=Harry%20Reid%20International%20Airport%2C%20Las%20Vegas%2C%20NV"}]}]}];let activeDay=0, openStop=null;
+
+function hexToRgba(hex,a){
+ const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
+ return `rgba(${r},${g},${b},${a})`;
+}
+function renderTabs(){
+ document.getElementById('tabs').innerHTML=days.map((d,i)=>`
+ <button class="tab ${i===activeDay?'active':''}" style="--day-color:${d.color}" onclick="selectDay(${i})">
+ <span class="tab-emoji">${d.emoji}</span><span class="tab-num">Dan ${d.id}</span><span class="tab-date">${d.date}</span>
+ </button>`).join('');
+}
+function renderDay(){
+ const d=days[activeDay];
+ document.getElementById('dayLabel').textContent=`${d.date} · Dan ${d.id}`;
+ document.getElementById('dayTitle').textContent=d.label;
+ document.getElementById('daySubtitle').textContent=d.subtitle;
+ document.getElementById('dayBadge').textContent=d.km;
+ document.getElementById('dayRating').textContent='★★★★★ '+d.rating;
+ document.getElementById('dayDuration').textContent=d.duration;
+ document.getElementById('dayTip').textContent='💡 '+d.tip;
+ document.getElementById('dayCard').style.borderColor=hexToRgba(d.color,.3);
+ document.querySelector('.day-label-sm').style.color=d.color;
+ const b=document.getElementById('dayBadge'); b.style.background=hexToRgba(d.color,.15); b.style.color=d.color;
+ document.getElementById('dayRating').style.color=d.color;
+ document.querySelector('.day-tip').style.borderLeftColor=d.color;
+ document.getElementById('hline').style.background=d.color;
+ document.getElementById('ambient').style.background=`radial-gradient(ellipse at 50% 0%, ${hexToRgba(d.color,.09)} 0%, transparent 65%)`;
+}
+function renderStops(){
+ const d=days[activeDay], list=document.getElementById('stopsList');
+ list.style.setProperty('--day-color',d.color);
+ list.innerHTML=d.stops.map((s,i)=>{
+ const last=i===d.stops.length-1;
+ return `<div class="stop-row">
+  <div class="stop-timeline"><div class="stop-dot">${s.icon}</div>${!last?'<div class="stop-line"></div>':''}</div>
+  <div class="stop-content">
+  <div class="stop-card" id="stop-${i}" onclick="toggleStop(${i})">
+   <div class="stop-top"><div style="flex:1">
+   <div class="stop-time">${s.time}</div><div class="stop-name">${s.name}</div>
+   </div><div class="stop-chevron">▼</div></div>
+   ${s.warn?`<div class="stop-warning">⚠️ ${s.warn}</div>`:''}
+   <div class="stop-note">${s.note}${s.map?`<br><a class="stop-map" href="${s.map}" target="_blank" rel="noopener" onclick="event.stopPropagation()">📍 Otvori lokaciju u Google Maps</a>`:``}${s.maps?`<div class="stop-map-list">${s.maps.map(x=>`<a class="stop-map" href="${x.url}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${x.label}</a>`).join(" ")}</div>`:``}</div>
+  </div>
+  </div>
+ </div>`;
+ }).join('');
+}
+function toggleStop(i){
+ const card=document.getElementById('stop-'+i);
+ if(openStop===i){card.classList.remove('open');openStop=null;return;}
+ if(openStop!==null){const p=document.getElementById('stop-'+openStop);if(p)p.classList.remove('open');}
+ card.classList.add('open');openStop=i;
+ setTimeout(()=>card.scrollIntoView({behavior:'smooth',block:'nearest'}),50);
+}
+function selectDay(i){
+ activeDay=i;openStop=null;renderTabs();renderDay();renderStops();window.scrollTo({top:0,behavior:'smooth'});
+}
+renderTabs();renderDay();renderStops();
+</script>
+</body>
+</html>
